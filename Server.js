@@ -65,7 +65,7 @@ async function createRoot() {
 }
 
 app.get('/', (req,res)=>{
-    res.sendFile(path.join(__dirname, 'Web', 'Home.html'))
+    res.sendFile(path.join(__dirname, 'Web', 'index.html'))
 })
 
 app.get('/Signup', (req,res)=>{
@@ -145,7 +145,7 @@ app.post('/Login', async (req,res)=>{
    if(user){
         const isPasswordCorrect = await bcrypt.compare(password, user.password)
         if (isPasswordCorrect){
-            return res.sendFile(path.join(__dirname, 'Web', 'Home.html'))
+            return res.sendFile(path.join(__dirname, 'Web', 'index.html'))
         }
     }
     return res.status(401).send('Username/email or password is incorrect')
