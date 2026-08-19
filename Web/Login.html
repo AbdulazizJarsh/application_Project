@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="form-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="tag">Welcome back</span>
+            <h2>Login</h2>
+        </div>
+
+        <form class="auth-form" id="login-form" action="/Login" method="post">
+            <div class="form-row">
+            <label for="user">Username or email</label>
+                <input type="text" name="username" id="user" required>
+            </div>
+            <div class="form-row">
+                <label for="Password">Password</label>
+                <input type="password" name="password" id="Password" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Login</button>
+            <p class="form-error" id="login-error" role="alert" hidden></p>
+        </form>
+
+        <p class="form-footer">Don't have an account? <a href="/Signup">Create one</a></p>
+    </div>
+    <script>
+        const loginForm = document.getElementById('login-form')
+        const loginError = document.getElementById('login-error')
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault()
+            loginError.hidden = true
+
+            const response = await fetch(loginForm.action, {
+                method: 'POST',
+                body: new URLSearchParams(new FormData(loginForm))
+            })
+
+            if (response.ok) {
+                window.location.href = '/'
+                return
+            }
+
+            loginError.textContent = await response.text()
+            loginError.hidden = false
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="form-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="tag">Create account</span>
+            <h2>Sign Up</h2>
+        </div>
+
+        <form class="auth-form" id="signup-form" action="/signup" method="post">
+            <div class="form-row">
+                <label for="user">Username</label>
+                <input type="text" name="username" id="user" required>
+            </div>
+            <div class="form-row">
+                <label for="Full">Full Name</label>
+                <input type="text" name="fullname" id="Full" required pattern="[A-Za-z]{3,}\s[A-Za-z]{3,}">
+            </div>
+            <div class="form-row">
+                <label for="Email">Email</label>
+                <input type="email" name="email" id="Email" required pattern="[A-Za-z0-9-_]{2,}@[A-Za-z]+\.[A-Za-z]{2,}">
+            </div>
+            <div class="form-row">
+                <label for="num">Phone Number</label>
+                <input type="tel" name="phonenumber" id="num" pattern="[0-9]{8}" required>
+            </div>
+            <div class="form-row">
+                <label for="Password">Password</label>
+                <input type="password" name="password" id="Password" required pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!?@#$%&*_-])[A-Za-z0-9!?@#$%&*_-]{8,}">
+            </div>
+            <div class="form-row">
+                <label for="Address">Address</label>
+                <input type="text" name="address" id="Address" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Sign up</button>
+            <button class="btn btn-secondary" type="reset">Clear</button>
+            <p class="form-error" id="signup-error" role="alert" hidden></p>
+        </form>
+
+        <a class="btn btn-secondary home-button" href="/">Home</a>
+        <p class="form-footer">Already have an account? <a href="/Login">Login</a></p>
+    </div>
+    <script>
+        const signupForm = document.getElementById('signup-form')
+        const signupError = document.getElementById('signup-error')
+
+        signupForm.addEventListener('submit', async (event) => {
+            event.preventDefault()
+            signupError.hidden = true
+
+            const response = await fetch(signupForm.action, {
+                method: 'POST',
+                body: new URLSearchParams(new FormData(signupForm))
+            })
+
+            if (response.ok) {
+                window.location.href = '/Login'
+                return
+            }
+
+            signupError.textContent = await response.text()
+            signupError.hidden = false
+        })
+    </script>
+</body>
+</html>
